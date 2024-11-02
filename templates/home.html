@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Website</title>
+    <link rel="stylesheet" href="static/home.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+{% include "header.html" %}
+
+
+
+<!-- Movie Category -->
+<!-- Movie Category -->
+<div class="container">
+
+<!-- Search Bar -->
+<div class="search-container">
+    <form action="{{ url_for('search') }}" method="POST">
+        <input type="text" name="search_data" placeholder="Search for movies..." required>
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<section class="movies-section">
+    <h2>Playing Movie</h2>
+    <div class="scroll-container">
+        <div class="movie-row playing">
+            {% for m in all_movie %}
+            <!-- Movie Card -->
+            <a href="{{ url_for('search_movie_detail', m_id=m.id) }}" style="text-decoration: none">
+                <div class="movie-card">
+                    <img src="{{ photo_path }}{{ m['poster_path'] }}" alt="{{ m.title }}">
+                    <div class="movie-info">
+                        <h3>{{ m.title }}</h3>
+                        <span>Popularity : {{ m.popularity }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="movies-section">
+    <h2>Popular Movie</h2>
+    <div class="scroll-container">
+        <div class="movie-row popular">
+            {% for m in popular %}
+            <!-- Movie Card -->
+            <a href="{{ url_for('search_movie_detail', m_id=m.id) }}" style="text-decoration: none">
+                <div class="movie-card">
+                    <img src="{{photo_path}}{{ m['poster_path'] }}" alt="{{ m.title }}">
+                    <div class="movie-info">
+                        <h3>{{ m.title }}</h3>
+                        <span>Popularity : {{ m.popularity }}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+</div>
+</body>
+
+<script>
+    // JavaScript code to scroll left or right for the specific section
+const scrollAmount = 400;
+
+window.scrollLeft = function (section) {
+    const movieRow = document.querySelector(`.movie-row.${section}`);
+    if (movieRow) {
+        movieRow.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    }
+};
+
+window.scrollRight = function (section) {
+    const movieRow = document.querySelector(`.movie-row.${section}`);
+    if (movieRow) {
+        movieRow.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+};
+
+</script>
+
+</html>
+
+

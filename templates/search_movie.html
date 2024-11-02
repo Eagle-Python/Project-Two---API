@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1c1c1c; /* Dark background */
+            color: #f0f0f0; /* Light text color */
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .movie-card {
+            background-color: #333333; /* Darker background for cards */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-image img {
+            width: 100%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            object-fit: cover;
+        }
+
+        .movie-details {
+            padding: 15px;
+        }
+
+        .movie-title {
+            font-size: 1.4em;
+            color: #4db8ff; /* Light blue text */
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .movie-overview {
+            font-size: 0.9em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: justify;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .see-more {
+            color: #4db8ff; /* Matching blue for "See More" */
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: underline;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .movie-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+            color: #cccccc; /* Light gray for info text */
+        }
+
+        .movie-info span {
+            color: #4db8ff;
+        }
+
+        .movie-trailer {
+            display: flex;
+            justify-content: center;
+            padding-top: 10px;
+        }
+
+        .watch-btn {
+            background-color: #4db8ff;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .watch-btn:hover {
+            background-color: #3399cc;
+        }
+
+
+        /* Search Bar Styles */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.search-container form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.search-container input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+}
+
+.search-container button {
+    width: 20%;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    background-color: #ff5733;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #ffdd57;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+
+    {% for d in data %}
+    <div class="movie-card">
+        <div class="movie-image">
+            <img src="{{photo}}{{d.poster_path}}" alt="Movie">
+        </div>
+        <div class="movie-details">
+            <h2 class="movie-title">{{ d.title }}</h2>
+            <p class="movie-overview" id="overview">
+                {{ d.overview }}
+            </p>
+            <span class="see-more" onclick="toggleOverview(this)">See More</span>
+            <div class="movie-info">
+                <span>{{ d.release_date }}</span>
+                <span>Rating: {{ d.rating }}</span>
+            </div>
+            <div class="movie-trailer">
+                <a href="{{ url_for('search_movie_detail', m_id=d.id) }}" class="watch-btn">Detail Watch</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    function toggleOverview(element) {
+        const overview = element.previousElementSibling;
+        if (element.innerText === "See More") {
+            overview.style.display = "block";
+            element.innerText = "See Less";
+        } else {
+            overview.style.display = "-webkit-box";
+            element.innerText = "See More";
+        }
+    }
+</script>
+
+</body>
+</html>

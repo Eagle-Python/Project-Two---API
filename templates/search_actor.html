@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Website</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            margin-top: 70px;
+            font-family: Arial, sans-serif;
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 90%;
+            margin: auto;
+            max-width: 1200px;
+            padding-top: 20px;
+        }
+
+        /* Search Bar Styling */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-container input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .search-container button {
+            padding: 10px 20px;
+            background-color: #f5ba31;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #e0a700;
+        }
+
+        /* Movies Section */
+        .movies-section {
+            margin-bottom: 40px;
+        }
+
+        .movies-section h2 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #f5ba31;
+        }
+
+        /* Movie Row Styling */
+        .movie-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Movie Card Styling */
+        .movie-card {
+            width: 250px;
+            background-color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .movie-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .movie-info span {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Known-for Section */
+        .known-for {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 8px;
+        }
+
+        .known-for h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #f5ba31;
+        }
+
+        .known-for-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .known-for-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .known-for-item h5 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .known-for-item p {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .known-for-item:hover {
+            background-color: #555;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-container input[type="text"] {
+                width: 80%;
+            }
+
+            .movie-card {
+                width: 100%;
+            }
+
+            .known-for-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+</head>
+<body>
+{% include "header.html" %}
+
+<div class="container">
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <form action="{{ url_for('actor_search') }}" method="POST">
+            <input type="text" name="search_data" placeholder="Search for Actor person..." required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <section class="movies-section">
+        <h2>Popular Actor</h2>
+        <div class="scroll-container">
+            <div class="movie-row">
+                {% for m in data %}
+                <!-- Movie Card -->
+                <a href="{{ url_for('actor_detail', actor_id=m.id) }}" style="text-decoration: none">
+                    <div class="movie-card">
+                        <img src="{{ image_path }}{{m.profile_path}}" alt="{{ m.name }}">
+                        <div class="movie-info">
+                            <h3>{{ m.name }}</h3>
+                            <span>Popularity: {{ m.popularity }}</span>
+                        </div>
+                        <!-- Known-for Section -->
+                        <div class="known-for">
+                            <h4>Known For:</h4>
+                            {% for i in m.known_for %}
+                            <a href="{{ url_for('search_movie_detail', m_id=i.id) }}" class="known-for-item">
+                                <img src="{{ image_path }}{{i.backdrop_path}}" alt="{{ i.title }}">
+                                <div>
+                                    <h5>{{ i.title }}</h5>
+                                    <p>{{ i.overview | truncate(100) }}</p>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

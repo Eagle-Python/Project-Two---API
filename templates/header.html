@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <style>
+        /* Reset Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar Container */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #1f1c2c, #3f2b6f);
+            color: #ffffff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Logo */
+        .navbar .logo {
+            font-size: 1.5rem;
+            color: #ff3d00;
+            font-weight: bold;
+        }
+
+        /* Nav Links */
+        .navbar nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar nav a {
+            text-decoration: none;
+            color: #bbb;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .navbar nav a:hover {
+            color: #ffbd69;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-toggle {
+            display: none;
+        }
+
+        /* Hidden Checkbox for Toggling */
+        #menu-toggle {
+            display: none;
+        }
+
+        /* Show mobile menu when checked */
+        #menu-toggle:checked + nav {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: #2a2340;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+        /* Show the toggle icon in mobile view */
+        @media (max-width: 768px) {
+            .navbar nav {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: #ffbd69;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo">Test <span style="font-size: 0.6em; color: #ffbd69;">KST</span></div>
+        <label for="menu-toggle" class="menu-toggle">&#9776;</label>
+        <input type="checkbox" id="menu-toggle">
+        <nav>
+            <a href="{{ url_for('home') }}">Movie</a>
+            <a href="{{ url_for('job') }}">Job</a>
+            <a href="{{ url_for('series') }}">Series</a>
+            <a href="{{ url_for('actor_name') }}">Actor</a>
+        </nav>
+    </div>
+</header>
+
+</body>
+</html>
