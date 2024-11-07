@@ -1,6 +1,6 @@
 import requests
 from flask import Flask, render_template, request, flash
-from flask_bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap
 import os
 from dotenv import load_dotenv
 
@@ -17,7 +17,7 @@ watch_url = "https://www.youtube.com/watch?v="
 search_url = "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1"
 
 app = Flask(__name__)
-bootstrap = Bootstrap5(app)
+bootstrap = Bootstrap(app)
 
 
 @app.route("/")
@@ -149,4 +149,4 @@ def job():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
