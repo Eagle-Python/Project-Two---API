@@ -33,6 +33,7 @@ def home():
     popular_respond = requests.get(url=popular_url, params=query)
     popular_movies = popular_respond.json()['results']
 
+
     return render_template("home.html", all_movie=all_movie, popular=popular_movies, photo_path=img_url)
 
 
@@ -64,10 +65,12 @@ def search_movie_detail(m_id):
     query = {
         "api_key": API_KEY
     }
-    youtube_respond = requests.get(url=youtube, params=query)
-    if "results" not in youtube_respond.json():
+    respond = requests.get(url=youtube, params=query)
+    if "results" not in respond.json():
         return render_template("no_data.html")
-    data = youtube_respond.json()['results'][-1]
+    if not respond.json()['results']:
+        return render_template("no_data.html")
+    data = respond.json()['results'][-1]
     use_url = ""
     if data:
         use_url = data['key']
