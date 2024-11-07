@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 import os
 from dotenv import load_dotenv
@@ -69,8 +69,6 @@ def search_movie_detail(m_id):
     }
     respond = requests.get(url=youtube, params=query)
     if "results" not in respond.json():
-        return render_template("no_data.html")
-    if not respond.json()['results']:
         return render_template("no_data.html")
     data = respond.json()['results'][-1]
     use_url = ""
@@ -149,4 +147,4 @@ def job():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
