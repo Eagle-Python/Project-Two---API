@@ -1,6 +1,5 @@
 import requests
 from flask import Flask, render_template, request
-from flask_bootstrap import Bootstrap
 import os
 from dotenv import load_dotenv
 
@@ -17,7 +16,6 @@ watch_url = "https://www.youtube.com/watch?v="
 search_url = "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1"
 
 app = Flask(__name__)
-bootstrap = Bootstrap(app)
 
 
 @app.route("/")
@@ -34,7 +32,6 @@ def home():
 
     popular_respond = requests.get(url=popular_url, params=query)
     popular_movies = popular_respond.json()['results']
-
 
     return render_template("home.html", all_movie=all_movie, popular=popular_movies, photo_path=img_url)
 
@@ -67,10 +64,10 @@ def search_movie_detail(m_id):
     query = {
         "api_key": API_KEY
     }
-    respond = requests.get(url=youtube, params=query)
-    if "results" not in respond.json():
+    youtube_respond = requests.get(url=youtube, params=query)
+    if "results" not in youtube_respond.json():
         return render_template("no_data.html")
-    data = respond.json()['results'][-1]
+    data = youtube_respond.json()['results'][-1]
     use_url = ""
     if data:
         use_url = data['key']
